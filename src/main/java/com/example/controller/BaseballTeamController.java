@@ -30,7 +30,6 @@ public class BaseballTeamController {
 	 */
 	@RequestMapping("/")
 	public String index(Model model) {
-		System.out.println("デバッグ");
 		List<BaseballTeam> teamList = service.showList();
 
 		System.out.println(teamList);
