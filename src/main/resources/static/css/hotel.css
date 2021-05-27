@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.error-messages {
+	color: red;
+}
+
+table, tr, td {
+	border: solid 1px;
+}
+
+table {
+	width: 360px;
+	margin: 5px 0 5px 0;
+}
+
+.even {
+	background-color: #ccccff
+}
+
+.odd {
+	background-color: #ccffff
+}
+
+.small {
+	width: 120px;
+}
+
+.large {
+	width: 240px;
+}

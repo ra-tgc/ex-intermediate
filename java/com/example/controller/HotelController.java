@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Hotel;
+import com.example.form.PriceForm;
 import com.example.service.HotelService;
 
 /**
@@ -22,6 +26,11 @@ import com.example.service.HotelService;
 public class HotelController {
 	@Autowired
 	private HotelService service;
+
+	@ModelAttribute
+	public PriceForm setUpForm() {
+		return new PriceForm();
+	}
 
 	/**
 	 * 検索画面を表示する.
@@ -42,16 +51,22 @@ public class HotelController {
 	 * @return 検索画面のビュー
 	 */
 	@RequestMapping("/search-by-price")
-	public String searchByPrice(String price, Model model) {
+	public String searchByPrice(@Validated PriceForm form, BindingResult result, Model model) {
 		List<Hotel> hotelList = new ArrayList<>();
-		if ("".equals(price) || price == null) {
-			hotelList = service.showList(price);
+
+		if (result.hasErrors()) {
+			return index(model);
+		}
+
+		if ("".equals(form.getPrice()) || form.getPrice() == null) {
+			// 値段が入力されていない場合
+			hotelList = service.showList(form.getPrice());
 		} else {
-			hotelList = service.showList(Integer.parseInt(price));
+			hotelList = service.showList(Integer.parseInt(form.getPrice()));
 		}
 
 		if (hotelList.isEmpty()) {
-			model.addAttribute("emptyHotelListMessage", "一致するホテルが存在しません");
+			model.addAttribute("emptyHotelListMessage", "該当するホテルは存在しません");
 		}
 		model.addAttribute("hotelList", hotelList);
 
