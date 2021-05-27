@@ -22,23 +22,18 @@ public class HotelService {
 	private HotelRepository repository;
 
 	/**
-	 * 値段以下のホテル情報を取得する.
-	 * 
-	 * @param price 値段
-	 * @return 値段以下のホテル情報
-	 */
-	public List<Hotel> showList(Integer price) {
-
-		return repository.searchByLessThanPrice(price);
-	}
-
-	/**
-	 * ホテル情報を全件取得する(値段が存在しない場合).
+	 * 値段以下のホテル情報を取得する(値段が存在しない場合は全件取得).
 	 * 
 	 * @param price price 値段
-	 * @return 全件取得
+	 * @return 値段以下のホテル情報
 	 */
 	public List<Hotel> showList(String price) {
-		return repository.findAll();
+
+		if ("".equals(price) || price == null) {
+			// 値段が入力されていない場合
+			return repository.findAll();
+		}
+
+		return repository.findByLessThanPrice(Integer.parseInt(price));
 	}
 }

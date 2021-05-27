@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,7 @@ public class HotelController {
 
 	/**
 	 * 値段以下のホテル一覧を表示する.
+	 * リクエストスコープのemptyHotelListMessageは検索ボタンを押していないときに"該当するホテルは存在しません"と表示されないようにするために用意。
 	 * 
 	 * @param price 値段
 	 * @param model リクエストスコープ
@@ -52,18 +52,12 @@ public class HotelController {
 	 */
 	@RequestMapping("/search-by-price")
 	public String searchByPrice(@Validated PriceForm form, BindingResult result, Model model) {
-		List<Hotel> hotelList = new ArrayList<>();
 
 		if (result.hasErrors()) {
 			return index(model);
 		}
 
-		if ("".equals(form.getPrice()) || form.getPrice() == null) {
-			// 値段が入力されていない場合
-			hotelList = service.showList(form.getPrice());
-		} else {
-			hotelList = service.showList(Integer.parseInt(form.getPrice()));
-		}
+		List<Hotel> hotelList = service.showList(form.getPrice());
 
 		if (hotelList.isEmpty()) {
 			model.addAttribute("emptyHotelListMessage", "該当するホテルは存在しません");
