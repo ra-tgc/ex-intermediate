@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="../../static/css/clothing.css" th:href="@{/css/clothing.css}" rel="stylesheet">
+<title>タイトル</title>
+</head>
+<body>
+<h1>衣類検索</h1>
+<form action="index.html" th:action="@{/ex03/search-by-color-and-gender}" method="post">
+	<main>
+		<div class="div-gender">
+			<div th:each="gender : ${genderMap}">
+				<input type="radio" name="gender" th:value="${gender.key}" th:text="${gender.value}" th:checked="${gender.key == 0}">
+			</div>
+		</div>
+		<select name="color" class="color">
+			<option th:each="color : ${colorList}" th:value="${color}" th:text="${color}">
+		</select>
+	</main>
+<button>検索</button>
+</form>
+<table th:if="${clothingList}" th:each="clothing : ${clothingList}">
+	<tr>
+		<td class="odd small">ジャンル</td>
+		<td class="odd large" th:text="${clothing.genre}">ダミー</td>
+	</tr>
+	<tr>
+		<td class="even small">サイズ</td>
+		<td class="even large" th:text="${clothing.size}">ダミー</td>
+	</tr>
+	<tr>
+		<td class="odd small">価格</td>
+		<td class="odd large" th:text="${#numbers.formatInteger(clothing.price, 1, 'COMMA')}">ダミー</td>
+	</tr>
+</table>
+<span th:if="${emptyClothingListMessage}" th:text="${emptyClothingListMessage}">該当する衣類は存在しません</span>
+</body>
+</html>

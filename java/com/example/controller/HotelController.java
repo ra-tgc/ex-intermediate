@@ -43,7 +43,7 @@ public class HotelController {
 	}
 
 	/**
-	 * 値段以下のホテル一覧を表示する.
+	 * 値段以下のホテル一覧を表示する.<br>
 	 * リクエストスコープのemptyHotelListMessageは検索ボタンを押していないときに"該当するホテルは存在しません"と表示されないようにするために用意。
 	 * 
 	 * @param price 値段
