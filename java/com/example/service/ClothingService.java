@@ -36,6 +36,12 @@ public class ClothingService {
 			return new ArrayList<Clothing>();
 		}
 
-		return repository.findByColorAndGender(color, Integer.parseInt(gender));
+		try {
+			return repository.findByColorAndGender(color, Integer.parseInt(gender));
+		} catch (Exception e) {
+			// 不正に値を書き換えられた際に空のリストを返す
+			e.printStackTrace();
+			return new ArrayList<Clothing>();
+		}
 	}
 }
