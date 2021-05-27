@@ -53,7 +53,8 @@ public class ClothingController {
 
 	/**
 	 * 色と性別が一致する衣類情報を表示する.<br>
-	 * リクエストスコープのemptyClothingListMessageは検索ボタンを押していないときに"該当する衣類は存在しません"と表示されないようにするために用意。
+	 * リクエストスコープのemptyClothingListMessageは検索ボタンを押していないとき"該当する衣類は存在しません"と表示されないようにするために用意。
+	 * genderが書き換えられて不正な値になっていた場合も同様の表示。
 	 * 
 	 * @param color  色
 	 * @param gender 性別
@@ -63,7 +64,13 @@ public class ClothingController {
 	@RequestMapping("/search-by-color-and-gender")
 	public String searchByColorAndGender(String color, String gender, Model model) {
 
-		List<Clothing> clothingList = service.searchByColorAndGender(color, gender);
+		if (!"0".equals(gender) && !"1".equals(gender)) {
+			model.addAttribute("emptyClothingListMessage", "該当する衣類は存在しません");
+
+			return "forward:/ex03/";
+		}
+
+		List<Clothing> clothingList = service.searchByColorAndGender(color, Integer.parseInt(gender));
 
 		if (clothingList.isEmpty()) {
 			model.addAttribute("emptyClothingListMessage", "該当する衣類は存在しません");
