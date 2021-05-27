@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link href="xxx.css" rel="stylesheet">
+<link href="../../static/css/baseballteam.css" th:href="@{/css/baseballteam.css}" rel="stylesheet">
 <title>タイトル</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
 <h2>発足</h2>
 <span th:text="${team.inauguration}">ダミー</span>
 <h2>歴史</h2>
-<pre th:text="${team.history}">ダミー</pre><br>
+<div class="div-pre" th:text="${team.history}">ダミー</div><br>
 <a href="./list.html" th:href="@{/ex01/}">戻る</a>
 </body>
 </html>

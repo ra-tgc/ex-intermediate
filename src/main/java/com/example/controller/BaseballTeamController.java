@@ -32,8 +32,6 @@ public class BaseballTeamController {
 	public String index(Model model) {
 		List<BaseballTeam> teamList = service.showList();
 
-		System.out.println(teamList);
-
 		model.addAttribute("teamList", teamList);
 		return "baseballteam/list";
 	}

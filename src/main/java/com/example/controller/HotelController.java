@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ import com.example.service.HotelService;
 @Controller
 @RequestMapping("/ex02")
 public class HotelController {
-
+	@Autowired
 	private HotelService service;
 
 	/**
@@ -41,7 +43,16 @@ public class HotelController {
 	 */
 	@RequestMapping("/search-by-price")
 	public String searchByPrice(String price, Model model) {
-		List<Hotel> hotelList = service.showList(Integer.parseInt(price));
+		List<Hotel> hotelList = new ArrayList<>();
+		if ("".equals(price) || price == null) {
+			hotelList = service.showList(price);
+		} else {
+			hotelList = service.showList(Integer.parseInt(price));
+		}
+
+		if (hotelList.isEmpty()) {
+			model.addAttribute("emptyHotelListMessage", "一致するホテルが存在しません");
+		}
 		model.addAttribute("hotelList", hotelList);
 
 		return "forward:/ex02/";
